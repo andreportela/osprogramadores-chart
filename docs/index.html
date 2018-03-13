@@ -6,22 +6,17 @@
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-
-        var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Work',     11],
-          ['Eat',      2],
-          ['Commute',  2],
-          ['Watch TV', 2],
-          ['Sleep',    7]
-        ]);
-
+        var queryString = encodeURIComponent('SELECT C, count(C) group by C');
+        var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1P_gYpBen5lV6Xi1b2DnBc9x-PMv8GK3W23Bs4Twn4cs/gviz/tq?gid=0&headers=1&tq=' + queryString);
+        query.send(handleQueryResponse);
+      }
+      
+      function handleQueryResponse(response) {
+      	var data = response.getDataTable();
         var options = {
-          title: 'My Daily Activities'
+          title: 'Minhas Atividades Diárias'
         };
-
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
         chart.draw(data, options);
       }
     </script>
